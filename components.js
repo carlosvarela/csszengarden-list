@@ -17,11 +17,11 @@ dialog{width:min(1000px,94vw);max-height:88vh;border:1px solid var(--bd);border-
 dialog::backdrop{background:#0009}.dh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--bd)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding:16px}
 .card{display:flex;flex-direction:column;gap:6px;padding:0;height:auto;text-align:left;overflow:hidden}.card img{width:100%;height:130px;object-fit:cover;object-position:top;background:#8883}
-.card span{padding:0 10px}.card span:last-child{padding-bottom:8px;opacity:.7;font-size:12px}.card[aria-current=true]{outline:2px solid var(--ac)}`;
+.card span{padding:0 10px}.card span:last-child{padding-bottom:8px;opacity:.7;font-size:12px}.card[aria-current=true]{outline:2px solid var(--ac)}.card.featured{position:relative;border-color:#8caf55;outline:1px solid #8caf55}.card.featured::after{content:attr(data-badge);position:absolute;top:8px;right:8px;padding:4px 8px;border-radius:999px;background:#153a2a;color:#c6de8a;font-size:10px;font-weight:700}.grid{scroll-snap-type:x mandatory}.card{scroll-snap-align:center}@media(max-width:600px){.grid{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(78vw,280px);overflow-x:auto}.card img{height:180px}}@media(prefers-reduced-motion:reduce){.card{transition:none}}`;
 class ZenToolbar extends HTMLElement {
   connectedCallback() {
     this.r = this.attachShadow({mode:'open'});
-    this.r.innerHTML = `<style>${CSS}</style><div class="bar" role="toolbar"><span class="logo">☯ Zen Garden</span>
+    this.r.innerHTML = `<style>${CSS}</style><div class="bar" role="toolbar" aria-label="CSS Zen Garden controls"><span class="logo">☯ Zen Garden</span>
 <button id="prev">‹</button><select id="theme"></select><button id="next">›</button><button id="rnd">🎲</button><button id="gal">▦</button><span class="sp"></span>
 <select id="lang"></select><button class="mob" id="mob" aria-pressed="false">📱</button></div>
 <div class="pv" id="pv"><header><span></span><button id="cl">✕</button></header><iframe title="Mobile preview"></iframe></div><dialog id="dlg"><div class="dh"><strong id="dt"></strong><button id="dc">✕</button></div><div class="grid" id="grid"></div></dialog>`;
@@ -44,7 +44,7 @@ class ZenToolbar extends HTMLElement {
     const tips = {prev:u.prev,next:u.next,rnd:u.random,gal:u.gallery,mob:u.mobile,cl:u.close,dc:u.close,theme:u.theme,lang:u.lang};
     for (const [k, v] of Object.entries(tips)) { const e = $('#' + k); e.title = v; e.setAttribute('aria-label', v); }
     $('#mob').textContent = '📱 ' + u.mobile; $('#gal').textContent = '▦ ' + u.gallery; $('#dt').textContent = u.gallery;
-    $('#grid').innerHTML = state.themes.map(t => `<button class="card" data-id="${t.id}"${t === state.theme ? ' aria-current="true"' : ''}><img loading="lazy" src="${t.preview}" alt=""><span><b>${esc(t.title)}</b></span><span>${esc(t.author)}</span></button>`).join('');
+    $('#grid').innerHTML = state.themes.map(t => `<button class="card${t.highlight ? ' featured' : ''}" data-id="${t.id}" data-badge="${esc(t.badge || 'Featured')}"${t === state.theme ? ' aria-current="true"' : ''}><img loading="lazy" src="${t.preview}" alt="${esc(t.title)} by ${esc(t.author)}"><span><b>${esc(t.title)}</b></span><span>${esc(t.author)}</span></button>`).join('');
     $('#grid').onclick = e => { const b = e.target.closest('.card'); if (b) { setTheme(b.dataset.id); $('#dlg').close(); } };
     if ($('#pv').classList.contains('on')) this.frame();
   }

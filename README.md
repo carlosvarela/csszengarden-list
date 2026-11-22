@@ -12,3 +12,7 @@ the HTML never changes, only the external CSS does.
 - Deep links: `?theme=003&lang=pt-br`.
 
 Original designs and text © their authors, licensed [CC BY-NC-SA 3.0](LICENSE). Non-commercial use only.
+
+## Complete archive
+
+The gallery includes the complete CSS Zen Garden submissions from the upstream archive, plus a duplicated and modernized **Peace of Mind — AI Edition** for Carlos Varela (submission 184).

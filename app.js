@@ -43,7 +43,7 @@ function linkFooter() {
   document.querySelectorAll('.page-wrapper a[href^="http"]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
 }
 function renderList(by) {
-  $('#theme-list').innerHTML = state.themes.map(t => `<li${t === state.theme ? ' class="current"' : ''}><a class="design-name" href="?theme=${t.id}" data-id="${t.id}">${esc(t.title)}</a> ${esc(by)} <a class="designer-name" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.author)}</a></li>`).join('');
+  $('#theme-list').innerHTML = state.themes.map(t => `<li class="${[t === state.theme ? 'current' : '', t.highlight ? 'highlighted' : ''].filter(Boolean).join(' ')}"><a class="design-name" href="?theme=${t.id}" data-id="${t.id}">${esc(t.title)}</a>${t.highlight ? `<span class="highlight-badge">${esc(t.badge || 'Featured')}</span>` : ''} ${esc(by)} <a class="designer-name" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.author)}</a></li>`).join('');
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -69,8 +69,8 @@ export const step = d => { const i = state.themes.indexOf(state.theme); setTheme
 export const random = () => { let t; do t = state.themes[Math.random() * state.themes.length | 0]; while (t === state.theme && state.themes.length > 1); setTheme(t.id); };
 
 async function init() {
-  state.themes = await (await fetch('themes.json')).json();
-  state.theme = state.themes.find(t => t.id === (qs.get('theme') || load('zen-theme'))) || state.themes[0];
+  state.themes = await (await fetch('themes-full.json')).json();
+  state.theme = state.themes.find(t => t.id === (qs.get('theme') || load('zen-theme') || '222')) || state.themes[0];
   if (embed) { document.documentElement.classList.add('embed'); $('.zen-spacer').remove(); }
   $('#theme-list').addEventListener('click', e => { const a = e.target.closest('a.design-name'); if (a) { e.preventDefault(); setTheme(a.dataset.id); } });
   $('#open-gallery').addEventListener('click', e => { e.preventDefault(); document.dispatchEvent(new Event('zen:gallery')); });
