@@ -3,13 +3,13 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const CSS = `:host{all:initial}*{box-sizing:border-box;font:14px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
 :host{--bg:#fff;--fg:#1d1d1f;--bd:#d0d0d5;--ac:#2f6f4f;--sh:0 6px 24px #0003}
 @media (prefers-color-scheme:dark){:host{--bg:#1c1c1e;--fg:#f2f2f7;--bd:#3a3a3f;--ac:#6fcf97}}
-.bar{position:fixed;inset:0 0 auto 0;z-index:2147483000;height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--bg);color:var(--fg);border-bottom:1px solid var(--bd);box-shadow:var(--sh);overflow-x:auto;scrollbar-width:none}
+.bar{position:fixed;inset:auto 0 0 0;z-index:2147483000;height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--bg);color:var(--fg);border-top:1px solid var(--bd);box-shadow:0 -6px 24px #0002;overflow-x:auto;scrollbar-width:none}
 .logo{font-weight:700;letter-spacing:.02em;white-space:nowrap;margin-right:4px}.sp{flex:1}
 button,select{height:34px;padding:0 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg);cursor:pointer;white-space:nowrap}
 button:hover,select:hover{border-color:var(--ac)}button:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
 button[aria-pressed=true]{background:var(--ac);color:var(--bg);border-color:var(--ac)}
 select{max-width:200px}.mob{display:none}@media (min-width:900px){.mob{display:inline-block}}
-.pv{position:fixed;z-index:2147482999;top:64px;right:16px;display:none;flex-direction:column;align-items:center;gap:6px;padding:12px 10px 10px;background:#111;border-radius:34px;box-shadow:var(--sh);border:2px solid #444}
+.pv{position:fixed;z-index:2147482999;bottom:64px;right:16px;display:none;flex-direction:column;align-items:center;gap:6px;padding:12px 10px 10px;background:#111;border-radius:34px;box-shadow:var(--sh);border:2px solid #444}
 .pv.on{display:flex}@media (max-width:899px){.pv{display:none!important}}
 .pv iframe{width:390px;height:min(780px,calc(100vh - 150px));border:0;border-radius:20px;background:#fff}
 .pv header{display:flex;width:100%;justify-content:space-between;color:#ddd;font-size:12px;padding:0 8px}.pv header button{height:24px;font-size:12px}
