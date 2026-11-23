@@ -83,8 +83,9 @@ li { list-style: none; }
   inset: 2% 0 0 auto;
   width: 49%;
   height: 96%;
-  background: url(girl.jpg) center 24% / contain no-repeat;
+  background: url(midori.png) center 14% / contain no-repeat;
   content: "";
+  opacity: .82;
   pointer-events: none;
 }
 
@@ -403,7 +404,7 @@ li { list-style: none; }
 @media (max-width: 900px) {
   .page-wrapper { width: min(100% - 36px, 760px); }
   .intro { min-height: 660px; grid-template-columns: minmax(0, 1fr) minmax(250px, .75fr); column-gap: 20px; }
-  .intro::before { width: 48%; height: 85%; opacity: .84; }
+  .intro::before { width: 48%; height: 85%; opacity: .82; }
   .preamble { width: 100%; padding: 22px; }
   .sidebar .wrapper { grid-template-columns: minmax(0, 1fr) minmax(180px, .75fr); gap: 14px; }
   #theme-list { grid-template-columns: 1fr; }
@@ -412,7 +413,7 @@ li { list-style: none; }
 @media (max-width: 640px) {
   .page-wrapper { width: calc(100% - 28px); }
   .intro { display: grid; grid-template-columns: 1fr; grid-template-rows: auto auto auto; min-height: 0; gap: 0; padding: 54px 0 40px; }
-  .intro::before { inset: 12px -14px auto auto; width: 72%; height: 350px; opacity: .36; background-position: center 18%; }
+  .intro::before { inset: 12px -14px auto auto; width: 72%; height: 350px; opacity: .52; background-position: center 18%; }
   .intro header { grid-column: 1; grid-row: 1; padding: 25px 0 0; }
   .intro h1 { max-width: 560px; font-size: clamp(42px, 13vw, 78px); }
   .intro h2 { max-width: 330px; margin-top: 16px; font-size: 18px; }
