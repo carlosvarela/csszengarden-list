@@ -18,7 +18,7 @@ body#css-zen-garden:not(.embed) { padding-bottom: calc(96px + env(safe-area-inse
 }
 body#css-zen-garden:not(.embed) .zen-spacer { height: 0 !important; }
 body#css-zen-garden:not(.embed) .page-wrapper { max-width: 1366px; }
-body#css-zen-garden:not(.embed) #theme-list { max-height: min(56vh, 620px); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-color: #5EA936 #edf4e2; }
+body#css-zen-garden:not(.embed) #theme-list { max-height: min(56vh, 620px); overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-color: #5EA936 #edf4e2; }
 @supports (overflow-x: clip) {
   body#css-zen-garden:not(.embed) { overflow-x: clip; }
   body#css-zen-garden:not(.embed) #theme-list { max-height: min(56dvh, 620px); }

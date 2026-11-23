@@ -1,10 +1,35 @@
 from pathlib import Path
-import re, json, shutil, os
+import re, json, shutil, os, subprocess
 
 root = Path('/Users/carlosvarela/Dev/csszengarden/css-zen-garden-deploy-vercel')
 upstream = Path('/tmp/csszengarden-upstream')
 text = (upstream / 'includes/masterlist.php').read_text()
 rows = re.findall(r'array\(\s*"([0-9]+)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)"\s*,?\s*\)', text, re.S)
+
+def preview_for(ident, css_file):
+    screenshot = root / 'previews' / f'{ident}.webp'
+    if screenshot.is_file():
+        return str(screenshot.relative_to(root)).replace(os.sep, '/')
+
+    css = css_file.read_text(errors='ignore')
+    assets = []
+    for raw in re.findall(r'url\(\s*[\'"]?([^\)\'"\s]+)', css, re.I):
+        if raw.startswith(('data:', 'http:', 'https:', '#')):
+            continue
+        asset = (css_file.parent / raw.split('?')[0].split('#')[0]).resolve()
+        if asset.is_file() and asset.suffix.lower() in {'.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif'}:
+            assets.append(asset)
+    if assets:
+        target = root / 'previews' / f'{ident}.jpg'
+        for asset in sorted(set(assets), key=lambda path: path.stat().st_size, reverse=True):
+            result = subprocess.run(
+                ['sips', '-Z', '360', '-s', 'format', 'jpeg', str(asset), '--out', str(target)],
+                capture_output=True,
+                text=True
+            )
+            if result.returncode == 0:
+                return str(target.relative_to(root)).replace(os.sep, '/')
+    return 'previews/222.png'
 
 themes = []
 for ident, title, author, url in rows:
@@ -28,7 +53,6 @@ for ident, title, author, url in rows:
             key = suffix.lower()
             variants[key] = str(p.relative_to(root)).replace(os.sep, '/')
 
-    preview = root / 'previews' / f'{ident}.webp'
     themes.append({
         'id': ident,
         'title': title,
@@ -36,7 +60,7 @@ for ident, title, author, url in rows:
         'url': url or '#',
         'css': str(primary.relative_to(root)).replace(os.sep, '/'),
         'variants': variants,
-        'preview': str(preview.relative_to(root)).replace(os.sep, '/')
+        'preview': preview_for(ident, primary)
     })
 
 # Highlight Peace of Mind and append the AI-optimized duplicate.
@@ -52,7 +76,7 @@ themes.append({
     'url': 'https://www.carlosvarela.net/',
     'css': 'themes/222/222.css',
     'variants': {},
-    'preview': 'previews/222.webp',
+    'preview': 'previews/222.png',
     'highlight': True,
     'badge': 'Carlos Varela · AI Edition',
     'source': '184'
