@@ -1,15 +1,15 @@
 // CSS Zen Garden — modern re-implementation. Same HTML, swappable CSS + i18n.
 const LANGS = {en:'English',es:'Español','pt-br':'Português (BR)',fr:'Français',de:'Deutsch',nl:'Nederlands',ru:'Русский','zh-cn':'简体中文','zh-tw':'繁體中文'};
 const UI = {
- en:{theme:'Theme',lang:'Language',mobile:'Mobile view',desktop:'Desktop',random:'Random',gallery:'All designs',prev:'Previous',next:'Next',close:'Close'},
- es:{theme:'Tema',lang:'Idioma',mobile:'Vista móvil',desktop:'Escritorio',random:'Aleatorio',gallery:'Todos los diseños',prev:'Anterior',next:'Siguiente',close:'Cerrar'},
- 'pt-br':{theme:'Tema',lang:'Idioma',mobile:'Visão mobile',desktop:'Desktop',random:'Aleatório',gallery:'Todos os designs',prev:'Anterior',next:'Próximo',close:'Fechar'},
- fr:{theme:'Thème',lang:'Langue',mobile:'Vue mobile',desktop:'Bureau',random:'Aléatoire',gallery:'Tous les designs',prev:'Précédent',next:'Suivant',close:'Fermer'},
- de:{theme:'Design',lang:'Sprache',mobile:'Mobilansicht',desktop:'Desktop',random:'Zufällig',gallery:'Alle Designs',prev:'Zurück',next:'Weiter',close:'Schließen'},
- nl:{theme:'Thema',lang:'Taal',mobile:'Mobiele weergave',desktop:'Desktop',random:'Willekeurig',gallery:'Alle ontwerpen',prev:'Vorige',next:'Volgende',close:'Sluiten'},
- ru:{theme:'Тема',lang:'Язык',mobile:'Мобильный вид',desktop:'Десктоп',random:'Случайно',gallery:'Все дизайны',prev:'Назад',next:'Далее',close:'Закрыть'},
- 'zh-cn':{theme:'主题',lang:'语言',mobile:'手机视图',desktop:'桌面',random:'随机',gallery:'全部设计',prev:'上一个',next:'下一个',close:'关闭'},
- 'zh-tw':{theme:'主題',lang:'語言',mobile:'手機檢視',desktop:'桌面',random:'隨機',gallery:'全部設計',prev:'上一個',next:'下一個',close:'關閉'}};
+ en:{theme:'Theme',lang:'Language',mobile:'Mobile preview',desktop:'Desktop',random:'Random design',gallery:'All designs',prev:'Previous design',next:'Next design',close:'Close',search:'Find a design',searchHint:'Title or designer',noResults:'No matching designs',openPreview:'Open preview in a new tab',loadingPreview:'Loading preview…',previewFailed:'Preview unavailable',currentDesign:'On this page'},
+ es:{theme:'Tema',lang:'Idioma',mobile:'Vista móvil',desktop:'Escritorio',random:'Diseño aleatorio',gallery:'Todos los diseños',prev:'Diseño anterior',next:'Diseño siguiente',close:'Cerrar',search:'Buscar diseño',searchHint:'Título o diseñador',noResults:'No hay diseños coincidentes',openPreview:'Abrir vista previa en otra pestaña',loadingPreview:'Cargando vista previa…',previewFailed:'Vista previa no disponible',currentDesign:'En esta página'},
+ 'pt-br':{theme:'Tema',lang:'Idioma',mobile:'Prévia mobile',desktop:'Desktop',random:'Design aleatório',gallery:'Todos os designs',prev:'Design anterior',next:'Próximo design',close:'Fechar',search:'Buscar um design',searchHint:'Título ou designer',noResults:'Nenhum design encontrado',openPreview:'Abrir prévia em outra aba',loadingPreview:'Carregando prévia…',previewFailed:'Prévia indisponível',currentDesign:'Nesta página'},
+ fr:{theme:'Thème',lang:'Langue',mobile:'Aperçu mobile',desktop:'Bureau',random:'Design aléatoire',gallery:'Tous les designs',prev:'Design précédent',next:'Design suivant',close:'Fermer',search:'Rechercher un design',searchHint:'Titre ou designer',noResults:'Aucun design correspondant',openPreview:'Ouvrir l’aperçu dans un nouvel onglet',loadingPreview:'Chargement de l’aperçu…',previewFailed:'Aperçu indisponible',currentDesign:'Sur cette page'},
+ de:{theme:'Design',lang:'Sprache',mobile:'Mobilvorschau',desktop:'Desktop',random:'Zufälliges Design',gallery:'Alle Designs',prev:'Vorheriges Design',next:'Nächstes Design',close:'Schließen',search:'Design suchen',searchHint:'Titel oder Designer',noResults:'Keine passenden Designs',openPreview:'Vorschau in neuem Tab öffnen',loadingPreview:'Vorschau wird geladen…',previewFailed:'Vorschau nicht verfügbar',currentDesign:'Diese Seite'},
+ nl:{theme:'Thema',lang:'Taal',mobile:'Mobiel voorbeeld',desktop:'Desktop',random:'Willekeurig ontwerp',gallery:'Alle ontwerpen',prev:'Vorig ontwerp',next:'Volgend ontwerp',close:'Sluiten',search:'Ontwerp zoeken',searchHint:'Titel of ontwerper',noResults:'Geen overeenkomende ontwerpen',openPreview:'Voorbeeld openen in nieuw tabblad',loadingPreview:'Voorbeeld laden…',previewFailed:'Voorbeeld niet beschikbaar',currentDesign:'Op deze pagina'},
+ ru:{theme:'Тема',lang:'Язык',mobile:'Мобильный просмотр',desktop:'Десктоп',random:'Случайный дизайн',gallery:'Все дизайны',prev:'Предыдущий дизайн',next:'Следующий дизайн',close:'Закрыть',search:'Найти дизайн',searchHint:'Название или автор',noResults:'Подходящих дизайнов нет',openPreview:'Открыть предпросмотр в новой вкладке',loadingPreview:'Загрузка предпросмотра…',previewFailed:'Предпросмотр недоступен',currentDesign:'На этой странице'},
+ 'zh-cn':{theme:'主题',lang:'语言',mobile:'手机预览',desktop:'桌面',random:'随机设计',gallery:'全部设计',prev:'上一个设计',next:'下一个设计',close:'关闭',search:'查找设计',searchHint:'标题或设计者',noResults:'没有匹配的设计',openPreview:'在新标签页中打开预览',loadingPreview:'正在加载预览…',previewFailed:'预览无法显示',currentDesign:'当前页面'},
+ 'zh-tw':{theme:'主題',lang:'語言',mobile:'手機預覽',desktop:'桌面',random:'隨機設計',gallery:'全部設計',prev:'上一個設計',next:'下一個設計',close:'關閉',search:'尋找設計',searchHint:'標題或設計者',noResults:'沒有符合的設計',openPreview:'在新分頁開啟預覽',loadingPreview:'正在載入預覽…',previewFailed:'無法顯示預覽',currentDesign:'目前頁面'}};
 const VAR = {de:'de',fr:'fr','zh-cn':'zh','zh-tw':'zh'};
 const qs = new URLSearchParams(location.search), embed = qs.has('embed');
 const $ = (s, r = document) => r.querySelector(s);
@@ -43,7 +43,7 @@ function linkFooter() {
   document.querySelectorAll('.page-wrapper a[href^="http"]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
 }
 function renderList(by) {
-  $('#theme-list').innerHTML = state.themes.map(t => `<li class="${[t === state.theme ? 'current' : '', t.highlight ? 'highlighted' : ''].filter(Boolean).join(' ')}"><a class="design-name" href="?theme=${t.id}" data-id="${t.id}">${esc(t.title)}</a>${t.highlight ? `<span class="highlight-badge">${esc(t.badge || 'Featured')}</span>` : ''} ${esc(by)} <a class="designer-name" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.author)}</a></li>`).join('');
+  $('#theme-list').innerHTML = state.themes.map(t => `<li class="${[t === state.theme ? 'current' : '', t.highlight ? 'highlighted' : ''].filter(Boolean).join(' ')}"><a class="design-name" href="?theme=${encodeURIComponent(t.id)}" data-id="${esc(t.id)}"${t === state.theme ? ' aria-current="page"' : ''}><img src="${esc(t.preview)}" alt="" loading="lazy"><span class="entry-copy"><span class="entry-title">${esc(t.title)}</span></span></a><span class="entry-by">${esc(by)} <a class="designer-name" href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.author)}</a></span>${t.highlight ? `<span class="highlight-badge">${esc(t.badge || 'Featured')}</span>` : ''}</li>`).join('');
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -58,7 +58,12 @@ function applyCss() {
 export function setTheme(id, push = true) {
   const t = state.themes.find(x => x.id === id) || state.themes[0];
   const go = () => { state.theme = t; save('zen-theme', t.id); applyCss(); $('#view-css').href = cssFor(t);
-    document.querySelectorAll('#theme-list li').forEach(li => li.classList.toggle('current', li.querySelector('a').dataset.id === t.id)); sync(); };
+    document.querySelectorAll('#theme-list li').forEach(li => {
+      const link = li.querySelector('a.design-name'), current = link?.dataset.id === t.id;
+      li.classList.toggle('current', current);
+      if (current) link.setAttribute('aria-current', 'page'); else link?.removeAttribute('aria-current');
+    });
+    sync(); };
   document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches ? document.startViewTransition(go) : go();
 }
 function sync() {
